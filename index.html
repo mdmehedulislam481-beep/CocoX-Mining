@@ -2,524 +2,594 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101b14">
-  <title>CocoX Mining</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b14">
+<title>CocoX Mining</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: #101b14;
-      color: #fff4dc;
-      font-family: Arial, sans-serif;
-    }
-
-    .app {
-      max-width: 480px;
-      min-height: 100vh;
-      margin: auto;
-      padding: 18px;
-      padding-bottom: 95px;
-      background: #17251b;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0 22px;
-    }
-
-    .logo {
-      font-size: 38px;
-    }
-
-    h1 {
-      color: #b9e887;
-      font-size: 22px;
-    }
-
-    .subtitle {
-      color: #aebba6;
-      font-size: 12px;
-      margin-top: 5px;
-    }
-
-    .profile {
-      margin-left: auto;
-      text-align: right;
-      font-size: 12px;
-      color: #c7d8b6;
-      overflow-wrap: anywhere;
-    }
-
-    .balance-card {
-      padding: 25px 18px;
-      text-align: center;
-      background: linear-gradient(135deg,#304a32,#203326);
-      border: 1px solid #54734a;
-      border-radius: 20px;
-    }
-
-    .balance-label {
-      color: #d4e5c6;
-      font-size: 14px;
-    }
-
-    .balance {
-      margin: 15px 0;
-      color: #b9e887;
-      font-size: 38px;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .usd {
-      color: #e8d6ae;
-      font-size: 14px;
-    }
-
-    .section {
-      margin-top: 24px;
-    }
-
-    .section h2 {
-      margin-bottom: 12px;
-      color: #b9e887;
-      font-size: 18px;
-    }
-
-    .card {
-      padding: 17px;
-      margin-bottom: 12px;
-      background: #203326;
-      border: 1px solid #344b37;
-      border-radius: 15px;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin: 9px 0;
-      font-size: 14px;
-    }
-
-    .muted {
-      color: #b5c0ad;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .progress {
-      width: 100%;
-      height: 9px;
-      margin: 15px 0;
-      overflow: hidden;
-      background: #101b14;
-      border-radius: 20px;
-    }
-
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: #a8d878;
-      border-radius: 20px;
-    }
-
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 11px;
-      background: #a8d878;
-      color: #17251b;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .secondary {
-      background: #354c37;
-      color: #fff4dc;
-      border: 1px solid #54734a;
-    }
-
-    .nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      width: 100%;
-      max-width: 480px;
-      padding: 10px 5px;
-      background: #101b14;
-      border-top: 1px solid #344b37;
-      z-index: 10;
-    }
-
-    .nav button {
-      margin: 0;
-      padding: 10px 2px;
-      background: transparent;
-      color: #bdc9b5;
-      font-size: 11px;
-      border-radius: 8px;
-    }
-
-    .nav button.active {
-      background: #263b2b;
-      color: #b9e887;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    input {
-      width: 100%;
-      padding: 13px;
-      margin-top: 10px;
-      border: 1px solid #54734a;
-      border-radius: 10px;
-      background: #101b14;
-      color: white;
-      outline: none;
-    }
-
-    .status {
-      margin-top: 12px;
-      color: #f0ce83;
-      font-size: 12px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .task {
-      margin-bottom: 12px;
-    }
-
-    footer {
-      padding: 25px 0 5px;
-      text-align: center;
-      color: #82917c;
-      font-size: 11px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#101b14;color:#fff4dc;font-family:Arial,sans-serif}
+.app{max-width:480px;min-height:100vh;margin:auto;padding:16px 16px 100px;background:#17251b}
+header{display:flex;align-items:center;gap:10px;padding:12px 0 22px}
+.logo{font-size:35px}
+.brand h1{font-size:22px;color:#b9e887}
+.brand p{font-size:12px;color:#aebba6;margin-top:5px}
+.user-tag{margin-left:auto;color:#b9e887;font-size:12px;text-align:right;max-width:110px;overflow-wrap:anywhere}
+.page{display:none}
+.page.active{display:block}
+.section{margin-top:20px}
+.section h2{font-size:19px;color:#b9e887;margin-bottom:12px}
+.card{padding:17px;margin-bottom:13px;background:#203326;border:1px solid #344b37;border-radius:16px}
+.balance-card{padding:25px 15px;text-align:center;background:linear-gradient(135deg,#304a32,#203326);border:1px solid #54734a;border-radius:20px}
+.balance-label{font-size:13px;color:#d4e5c6}
+.balance{font-size:38px;font-weight:bold;color:#b9e887;margin:14px 0}
+.usd{color:#e8d6ae;font-size:15px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0;font-size:14px}
+.row strong{text-align:right;overflow-wrap:anywhere}
+.muted{font-size:13px;color:#b5c0ad;line-height:1.6}
+.status{font-size:12px;color:#f0ce83;line-height:1.6;margin-top:10px;overflow-wrap:anywhere}
+.progress{height:10px;background:#101b14;border-radius:20px;overflow:hidden;margin:15px 0}
+.progress-fill{height:100%;width:0;background:#a8d878;border-radius:20px;transition:width .3s}
+button{width:100%;padding:13px;margin-top:10px;border:0;border-radius:11px;background:#a8d878;color:#17251b;font-weight:bold;font-size:14px;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:#354c37;color:#fff4dc;border:1px solid #54734a}
+.danger{background:#71443c;color:white}
+input{width:100%;padding:13px;margin-top:10px;border:1px solid #54734a;border-radius:10px;background:#101b14;color:white;outline:none}
+.task{padding:15px;margin-bottom:12px;background:#203326;border:1px solid #344b37;border-radius:14px}
+.task h3{font-size:15px;color:#c5e99a;margin-bottom:7px}
+.task p{font-size:12px;color:#b5c0ad;line-height:1.5}
+.task small{display:block;color:#e8d6ae;margin-top:7px}
+.pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#354c37;color:#c9e9a8;font-size:11px;margin-top:8px}
+.history-item{padding:12px 0;border-bottom:1px solid #344b37;font-size:13px}
+.history-item:last-child{border:0}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(5,1fr);width:100%;max-width:480px;padding:9px 4px;background:#101b14;border-top:1px solid #344b37;z-index:10}
+.nav button{margin:0;padding:9px 2px;background:transparent;color:#bdc9b5;font-size:11px;border-radius:9px}
+.nav button.active{background:#263b2b;color:#b9e887}
+.nav span{display:block;font-size:19px;margin-bottom:4px}
+.empty{color:#aebba6;font-size:13px;padding:12px 0}
+footer{text-align:center;color:#82917c;font-size:11px;padding:20px 0}
+</style>
 </head>
 
 <body>
 <main class="app">
 
-  <header>
-    <div class="logo">🌴🥥</div>
-    <div>
-      <h1>CocoX Mining</h1>
-      <div class="subtitle">Grow your Coconut rewards</div>
+<header>
+  <div class="logo">🌴🥥</div>
+  <div class="brand">
+    <h1>CocoX Mining</h1>
+    <p>Grow your Coconut rewards</p>
+  </div>
+  <div class="user-tag" id="topUser">Guest</div>
+</header>
+
+<!-- HOME -->
+<section class="page active" id="home">
+  <div class="balance-card">
+    <div class="balance-label">YOUR COCONUT BALANCE</div>
+    <div class="balance" id="balance">0 🥥</div>
+    <div class="usd" id="usd">$0.00 USD</div>
+  </div>
+
+  <div class="section">
+    <h2>⛏️ Mining Center</h2>
+    <div class="card">
+      <div class="row"><span>Daily Mining</span><strong>50 🥥 / 24h</strong></div>
+      <div class="row"><span>Mining Progress</span><strong id="miningPercent">0%</strong></div>
+      <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      <p class="muted" id="miningInfo">Connect Telegram to start mining.</p>
+      <div class="row"><span>Available Mining</span><strong id="miningAmount">0.00000000 🥥</strong></div>
+      <button id="miningClaim" disabled>Claim Mining Rewards</button>
+      <p class="status" id="miningMessage"></p>
     </div>
-    <div class="profile" id="username">Loading...</div>
-  </header>
+  </div>
 
-  <!-- DASHBOARD -->
-  <section class="page active" id="dashboard">
+  <div class="section">
+    <h2>📌 Account Overview</h2>
+    <div class="card">
+      <div class="row"><span>Name</span><strong id="homeName">Loading...</strong></div>
+      <div class="row"><span>Telegram ID</span><strong id="homeId">Loading...</strong></div>
+      <div class="row"><span>Channel</span><strong id="channelState">Checking...</strong></div>
+      <button class="secondary" id="verifyChannel">Verify Channel Join</button>
+      <p class="status" id="channelMessage">Join the required channel before using rewards.</p>
+    </div>
+  </div>
+</section>
 
+<!-- TASKS -->
+<section class="page" id="tasks">
+  <div class="section">
+    <h2>🎯 Tasks & Daily Rewards</h2>
+
+    <div class="card">
+      <h3>🎁 Daily Bonus</h3>
+      <p class="muted">Claim 10 Coconut once every UTC day.</p>
+      <button id="dailyClaim" disabled>Claim Daily Bonus · 10 🥥</button>
+      <p class="status" id="dailyMessage"></p>
+    </div>
+
+    <h2>🌐 Website Tasks</h2>
+    <p class="muted">১০টি Website Task। প্রতিটি Task-এর Timer সার্ভার যাচাই করবে। Timer শেষ হলেও এই Task-এ বর্তমানে Reward নেই।</p>
+    <div id="websiteTasks"><p class="empty">Loading website tasks...</p></div>
+
+    <h2>📺 Monetag Tasks</h2>
+    <p class="muted">Monetag বিজ্ঞাপন Reward দেওয়ার আগে আসল Postback Verification প্রয়োজন।</p>
+    <div id="monetagTasks"><p class="empty">Loading Monetag tasks...</p></div>
+
+    <h2>📢 Adsterra Tasks</h2>
+    <p class="muted">Adsterra-এর ১০টি Task প্রস্তুত করতে Publisher Zone ও Server Verification সংযুক্ত করতে হবে।</p>
+    <div id="adsterraTasks"></div>
+  </div>
+</section>
+
+<!-- REFER -->
+<section class="page" id="refer">
+  <div class="section">
+    <h2>👥 Referral Program</h2>
+    <div class="card">
+      <h3 style="color:#b9e887;text-align:center">100 🥥 Per Referral</h3>
+      <p class="muted" style="text-align:center;margin-top:8px">বন্ধুকে আমন্ত্রণ জানান। বন্ধু চ্যানেলে Join করে Verify করলে Reward পাওয়া যাবে।</p>
+      <input id="referralLink" readonly placeholder="Your referral link">
+      <button class="secondary" id="copyReferral">Copy Referral Link</button>
+      <div class="row"><span>Total Referrals</span><strong id="refTotal">0</strong></div>
+      <div class="row"><span>Approved Referrals</span><strong id="refApproved">0</strong></div>
+      <div class="row"><span>Pending Referrals</span><strong id="refPending">0</strong></div>
+      <p class="status" id="refMessage"></p>
+    </div>
+    <div class="card">
+      <h3>📋 Referral History</h3>
+      <div id="refHistory" class="empty">Referral history is not available from the current API.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WITHDRAW -->
+<section class="page" id="withdraw">
+  <div class="section">
+    <h2>💳 Wallet & Withdraw</h2>
     <div class="balance-card">
-      <div class="balance-label">YOUR COCONUT BALANCE</div>
-      <div class="balance" id="balance">0 🥥</div>
-      <div class="usd" id="usd">$0.00 USD</div>
+      <div class="balance-label">AVAILABLE BALANCE</div>
+      <div class="balance" id="walletBalance">0 🥥</div>
+      <div class="usd" id="walletUsd">$0.00 USD</div>
     </div>
-
-    <div class="section">
-      <h2>⛏️ Mining Status</h2>
-      <div class="card">
-        <div class="row">
-          <span>Daily Mining</span>
-          <strong>50 🥥 / 24h</strong>
-        </div>
-        <div class="row">
-          <span>Mining Progress</span>
-          <strong id="miningProgress">0%</strong>
-        </div>
-        <div class="progress">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-        <p class="muted" id="miningStatus">
-          Connect your Telegram account to continue.
-        </p>
-      </div>
+    <div class="card">
+      <div class="row"><span>Minimum Withdrawal</span><strong>500 🥥</strong></div>
+      <div class="row"><span>Network</span><strong>BNB Smart Chain (BEP20)</strong></div>
+      <input id="walletAddress" placeholder="Enter BEP20 wallet address">
+      <input id="withdrawAmount" type="number" min="500" step="0.00000001" placeholder="Coconut amount">
+      <button id="withdrawButton" disabled>Request Withdrawal</button>
+      <p class="status" id="withdrawMessage"></p>
     </div>
-
-    <div class="section">
-      <h2>👤 Account Information</h2>
-      <div class="card">
-        <div class="row">
-          <span>Name</span>
-          <strong id="fullName">Loading...</strong>
-        </div>
-        <div class="row">
-          <span>Telegram ID</span>
-          <strong id="telegramId">Loading...</strong>
-        </div>
-        <div class="row">
-          <span>Conversion</span>
-          <strong>500 🥥 = $1</strong>
-        </div>
-        <div class="status" id="connectionStatus">
-          Connecting...
-        </div>
-      </div>
+    <div class="card">
+      <h3>📜 Withdrawal History</h3>
+      <div id="withdrawHistory" class="empty">Loading...</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- MINING -->
-  <section class="page" id="mine">
-    <div class="section">
-      <h2>⛏️ Coconut Mining</h2>
-      <div class="card">
-        <div style="font-size:45px;text-align:center">🌴🥥</div>
-        <h2 style="text-align:center;margin-top:12px">50 Coconut / Day</h2>
-        <p class="muted" style="text-align:center">
-          Earn Coconut rewards over 24 hours.
-        </p>
-        <div class="status" id="mineStatus">
-          Mining information will appear here.
-        </div>
-        <button id="claimButton" disabled>
-          Claim Mining Rewards
-        </button>
-      </div>
+<!-- PROFILE -->
+<section class="page" id="profile">
+  <div class="section">
+    <h2>👤 My Profile</h2>
+    <div class="card">
+      <div style="font-size:45px;text-align:center">👤</div>
+      <div class="row"><span>Name</span><strong id="profileName">Loading...</strong></div>
+      <div class="row"><span>Username</span><strong id="profileUsername">Loading...</strong></div>
+      <div class="row"><span>Telegram ID</span><strong id="profileId">Loading...</strong></div>
+      <div class="row"><span>Coconut Balance</span><strong id="profileBalance">0 🥥</strong></div>
+      <div class="row"><span>Conversion</span><strong>500 🥥 = $1</strong></div>
+      <p class="status" id="profileMessage"></p>
     </div>
-  </section>
-
-  <!-- BONUS -->
-  <section class="page" id="bonus">
-    <div class="section">
-      <h2>🎁 Daily Bonus</h2>
-      <div class="card">
-        <div style="font-size:45px;text-align:center">🎁</div>
-        <h2 style="text-align:center">10 Coconut</h2>
-        <p class="muted" style="text-align:center">
-          Daily bonus reward.
-        </p>
-        <button id="bonusButton" disabled>
-          Claim Daily Bonus
-        </button>
-        <p class="status" id="bonusStatus">
-          Daily bonus service is not connected yet.
-        </p>
-      </div>
+    <div class="card">
+      <h3>📜 Transaction History</h3>
+      <div id="transactionHistory" class="empty">Loading...</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- REFERRAL -->
-  <section class="page" id="refer">
-    <div class="section">
-      <h2>👥 Referral Program</h2>
-      <div class="card">
-        <h2 style="text-align:center">100 🥥</h2>
-        <p class="muted" style="text-align:center">
-          Invite friends and earn 100 Coconut for each eligible referral.
-        </p>
-        <input id="referralLink" readonly
-          placeholder="Your referral link will appear here">
-        <button class="secondary" id="copyReferral">
-          Copy Referral Link
-        </button>
-        <p class="status" id="referralStatus">
-          Referral service is not connected yet.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- WALLET -->
-  <section class="page" id="wallet">
-    <div class="section">
-      <h2>💳 Wallet & Withdrawal</h2>
-      <div class="card">
-        <p class="muted">
-          Minimum withdrawal: 500 Coconut<br>
-          Network: BNB Smart Chain (BEP20)
-        </p>
-        <input id="walletAddress"
-          placeholder="Enter your BEP20 wallet address">
-        <input id="withdrawAmount"
-          type="number" min="500"
-          placeholder="Enter Coconut amount">
-        <button id="withdrawButton" disabled>
-          Request Withdrawal
-        </button>
-        <p class="status" id="walletStatus">
-          Withdrawal service is not connected yet.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    CocoX Mining · Powered by Coconut Energy 🌴
-  </footer>
-
+<footer>CocoX Mining · Powered by Coconut Energy 🌴</footer>
 </main>
 
 <nav class="nav">
-  <button class="active" data-page="dashboard">🏠<br>Home</button>
-  <button data-page="mine">⛏️<br>Mine</button>
-  <button data-page="bonus">🎁<br>Bonus</button>
-  <button data-page="refer">👥<br>Refer</button>
-  <button data-page="wallet">💳<br>Wallet</button>
+  <button class="active" data-page="home"><span>🏠</span>Home</button>
+  <button data-page="tasks"><span>🎯</span>Tasks</button>
+  <button data-page="refer"><span>👥</span>Refer</button>
+  <button data-page="withdraw"><span>💳</span>Withdraw</button>
+  <button data-page="profile"><span>👤</span>Profile</button>
 </nav>
 
 <script>
-  const tg = window.Telegram?.WebApp;
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
 
-  if (tg) {
-    tg.ready();
-    tg.expand();
+const $ = id => document.getElementById(id);
+const API = "";
+let telegramUser = null;
+let connected = false;
+let channelJoined = false;
+let miningTimer = null;
+let miningData = null;
+let currentTasks = [];
+
+function authHeaders() {
+  return {
+    "Content-Type": "application/json",
+    "X-Telegram-Init-Data": tg?.initData || ""
+  };
+}
+
+async function api(path, options = {}) {
+  const response = await fetch(API + path, {
+    ...options,
+    headers: { ...authHeaders(), ...(options.headers || {}) }
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.success === false) {
+    throw new Error(data.message || `Request failed (${response.status})`);
+  }
+  return data;
+}
+
+function show(id, message) {
+  $(id).textContent = message;
+}
+
+function money(value) {
+  return Number(value || 0).toFixed(4);
+}
+
+function setBalance(value) {
+  const amount = Number(value || 0);
+  $("balance").textContent = money(amount) + " 🥥";
+  $("usd").textContent = "$" + (amount / 500).toFixed(2) + " USD";
+  $("walletBalance").textContent = money(amount) + " 🥥";
+  $("walletUsd").textContent = "$" + (amount / 500).toFixed(2) + " USD";
+  $("profileBalance").textContent = money(amount) + " 🥥";
+}
+
+function navigate(page) {
+  document.querySelectorAll(".nav button").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === page);
+  });
+  document.querySelectorAll(".page").forEach(section => {
+    section.classList.toggle("active", section.id === page);
+  });
+  if (page === "tasks") loadTasks();
+  if (page === "refer") loadReferral();
+  if (page === "withdraw") loadWallet();
+  if (page === "profile") loadWallet();
+}
+
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click", () => navigate(button.dataset.page));
+});
+
+async function connectAccount() {
+  if (!tg?.initData) {
+    show("channelMessage", "Open this app inside Telegram to connect your account.");
+    $("topUser").textContent = "Guest";
+    show("homeName", "Not connected");
+    show("homeId", "Not connected");
+    show("profileMessage", "Please open the Mini App through Telegram.");
+    return;
   }
 
-  const $ = id => document.getElementById(id);
+  telegramUser = tg.initDataUnsafe?.user || null;
 
-  // Navigation
-  document.querySelectorAll(".nav button").forEach(button => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".nav button").forEach(item => {
-        item.classList.remove("active");
-      });
+  if (telegramUser) {
+    const fullName = [telegramUser.first_name, telegramUser.last_name].filter(Boolean).join(" ");
+    $("topUser").textContent = telegramUser.username ? "@" + telegramUser.username : fullName;
+    show("homeName", fullName);
+    show("homeId", String(telegramUser.id));
+    show("profileName", fullName);
+    show("profileUsername", telegramUser.username ? "@" + telegramUser.username : "Not set");
+    show("profileId", String(telegramUser.id));
+  }
 
-      document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-      });
-
-      button.classList.add("active");
-      $(button.dataset.page).classList.add("active");
+  try {
+    const data = await api("/api/profile", {
+      method: "POST",
+      body: JSON.stringify({
+        startParam: tg.initDataUnsafe?.start_param || ""
+      })
     });
-  });
 
-  // Telegram user information
-  async function connectAccount() {
-    if (!tg || !tg.initData) {
-      $("connectionStatus").textContent =
-        "Open this app through Telegram to connect your account.";
+    connected = true;
+    setBalance(data.user.balance);
+    channelJoined = Boolean(data.user.channel_joined);
+    updateConnectionButtons();
+    await refreshAll();
+  } catch (error) {
+    show("profileMessage", error.message);
+    show("channelMessage", error.message);
+  }
+}
 
-      $("username").textContent = "Guest";
-      $("claimButton").disabled = true;
-      $("bonusButton").disabled = true;
-      $("withdrawButton").disabled = true;
-      return;
-    }
+function updateConnectionButtons() {
+  $("miningClaim").disabled = !connected || !channelJoined;
+  $("dailyClaim").disabled = !connected || !channelJoined;
+  $("withdrawButton").disabled = !connected || !channelJoined;
+  show("channelState", channelJoined ? "Joined ✓" : "Not verified");
+}
 
-    const user = tg.initDataUnsafe?.user;
+async function refreshAll() {
+  await Promise.allSettled([
+    loadMining(),
+    loadWallet(),
+    loadReferral()
+  ]);
+}
 
-    if (user) {
-      $("username").textContent =
-        user.username ? "@" + user.username : user.first_name;
+async function loadMining() {
+  if (!connected) return;
+  try {
+    const data = await api("/api/mining/status");
+    miningData = data;
+    updateMiningDisplay();
+    if (miningTimer) clearInterval(miningTimer);
+    miningTimer = setInterval(updateMiningDisplay, 1000);
+  } catch (error) {
+    show("miningInfo", error.message);
+  }
+}
 
-      $("fullName").textContent =
-        [user.first_name, user.last_name].filter(Boolean).join(" ");
+function updateMiningDisplay() {
+  if (!miningData) return;
+  const duration = 24 * 60 * 60 * 1000;
+  const elapsed = Math.min(duration, miningData.elapsedMilliseconds || 0);
+  const percent = Math.min(100, elapsed / duration * 100);
+  const amount = Number(miningData.dailyReward || 50) * percent / 100;
+  $("miningPercent").textContent = percent.toFixed(1) + "%";
+  $("progressFill").style.width = percent + "%";
+  $("miningAmount").textContent = amount.toFixed(8) + " 🥥";
+  show("miningInfo", percent >= 100
+    ? "Mining is complete. Claim your Coconut reward."
+    : "Mining is running. Your reward grows over 24 hours.");
+}
 
-      $("telegramId").textContent = user.id;
-    }
+$("miningClaim").addEventListener("click", async () => {
+  $("miningClaim").disabled = true;
+  try {
+    const data = await api("/api/mining/claim", {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+    show("miningMessage", data.message || `Claimed ${data.claimed} Coconut`);
+    await loadWallet();
+    await loadMining();
+  } catch (error) {
+    show("miningMessage", error.message);
+  } finally {
+    $("miningClaim").disabled = !connected || !channelJoined;
+  }
+});
 
+$("verifyChannel").addEventListener("click", async () => {
+  try {
+    const data = await api("/api/channel/verify", {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+    channelJoined = Boolean(data.joined);
+    updateConnectionButtons();
+    show("channelMessage", "Channel membership verified successfully.");
+    await refreshAll();
+  } catch (error) {
+    show("channelMessage", error.message + " Make sure the bot is an admin in the channel.");
+  }
+});
+
+$("dailyClaim").addEventListener("click", async () => {
+  $("dailyClaim").disabled = true;
+  try {
+    const data = await api("/api/bonus/claim", {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+    show("dailyMessage", `Congratulations! ${data.reward} Coconut received.`);
+    await loadWallet();
+  } catch (error) {
+    show("dailyMessage", error.message);
+  } finally {
+    $("dailyClaim").disabled = !connected || !channelJoined;
+  }
+});
+
+function taskCard(task) {
+  const claim = task.claim;
+  const completed = claim?.status === "completed";
+  const isWebsite = task.network === "Website";
+  const isMonetag = task.network === "Monetag";
+
+  let buttonText = completed ? "Completed" :
+    claim ? "Already Started" :
+    isWebsite ? "Start Website Task" : "Start Monetag Task";
+
+  const status = completed ? "Completed" :
+    claim ? "Started" :
+    isMonetag ? "Reward verification pending" : "Not started";
+
+  return `
+    <div class="task">
+      <h3>${escapeHtml(task.title)}</h3>
+      <p>Network: ${escapeHtml(task.network)}</p>
+      <small>${isWebsite ? "Timer: 15 seconds · Reward: 0 Coconut" :
+        "Reward: " + Number(task.reward || 0) + " Coconut · Verification required"}</small>
+      <span class="pill">${escapeHtml(status)}</span>
+      <button ${completed || claim ? "disabled" : ""}
+        data-start-task="${escapeHtml(task.id)}">${buttonText}</button>
+      ${isWebsite && claim && !completed
+        ? `<button class="secondary" data-complete-task="${escapeHtml(task.id)}">Complete Timer Task</button>`
+        : ""}
+      ${isMonetag ? `<p class="status">Monetag server-side postback is not active yet. No reward will be issued until verified.</p>` : ""}
+    </div>`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+async function loadTasks() {
+  if (!connected) return;
+  try {
+    const data = await api("/api/tasks");
+    currentTasks = data.tasks || [];
+    const website = currentTasks.filter(t => t.network === "Website");
+    const monetag = currentTasks.filter(t => t.network === "Monetag");
+
+    $("websiteTasks").innerHTML = website.length
+      ? website.map(taskCard).join("")
+      : '<p class="empty">No website tasks found.</p>';
+
+    $("monetagTasks").innerHTML = monetag.length
+      ? monetag.map(taskCard).join("")
+      : '<p class="empty">No Monetag tasks found.</p>';
+
+    $("adsterraTasks").innerHTML = Array.from({length:10}, (_,i) => `
+      <div class="task">
+        <h3>Adsterra Task ${i+1}</h3>
+        <p>Adsterra publisher integration is not configured.</p>
+        <span class="pill">Coming soon</span>
+        <button disabled>Unavailable</button>
+      </div>`).join("");
+  } catch (error) {
+    show("websiteTasks", error.message);
+    show("monetagTasks", error.message);
+  }
+}
+
+$("tasks").addEventListener("click", async event => {
+  const startId = event.target.dataset.startTask;
+  const completeId = event.target.dataset.completeTask;
+
+  if (startId) {
+    event.target.disabled = true;
     try {
-      const response = await fetch("/api/profile", {
+      const data = await api(`/api/tasks/${encodeURIComponent(startId)}/start`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Telegram-Init-Data": tg.initData
-        },
         body: JSON.stringify({})
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Account connection failed");
+      if (data.task?.url) {
+        window.open(data.task.url, "_blank", "noopener");
       }
 
-      $("balance").textContent =
-        Number(data.user.balance).toFixed(2) + " 🥥";
+      if (data.task?.network === "Monetag") {
+        show("monetagTasks", "Task started. Waiting for verified Monetag completion.");
+      }
 
-      $("usd").textContent =
-        "$" + (Number(data.user.balance) / 500).toFixed(2) + " USD";
-
-      $("connectionStatus").textContent =
-        "Telegram account connected successfully.";
-
+      await loadTasks();
     } catch (error) {
-      $("connectionStatus").textContent =
-        "Account connection failed: " + error.message;
+      alert(error.message);
+      event.target.disabled = false;
     }
   }
 
-  // Referral link preview
-  function setupReferral() {
-    const user = tg?.initDataUnsafe?.user;
-
-    if (user?.id) {
-      $("referralLink").value =
-        "https://t.me/CocoXMiningBot?start=ref_" + user.id;
-    }
-  }
-
-  $("copyReferral").addEventListener("click", async () => {
-    const link = $("referralLink").value;
-
-    if (!link) {
-      $("referralStatus").textContent = "Referral link is unavailable.";
-      return;
-    }
-
+  if (completeId) {
+    event.target.disabled = true;
     try {
-      await navigator.clipboard.writeText(link);
-      $("referralStatus").textContent = "Referral link copied!";
-    } catch {
-      $("referralLink").select();
-      $("referralStatus").textContent =
-        "Select and copy your referral link.";
+      const data = await api(`/api/tasks/${encodeURIComponent(completeId)}/complete`, {
+        method: "POST",
+        body: JSON.stringify({})
+      });
+      alert(data.message || "Task completed");
+      await loadTasks();
+    } catch (error) {
+      alert(error.message);
+      event.target.disabled = false;
     }
-  });
+  }
+});
 
-  // These features require secure server APIs.
-  $("claimButton").addEventListener("click", () => {
-    $("mineStatus").textContent =
-      "Mining claim API is not connected yet.";
-  });
+async function loadReferral() {
+  if (!connected) return;
+  try {
+    const data = await api("/api/referral");
+    $("referralLink").value = data.referralLink || "";
+    show("refTotal", data.totalReferrals || 0);
+    show("refApproved", data.approvedReferrals || 0);
+    show("refPending", Math.max(0, (data.totalReferrals || 0) - (data.approvedReferrals || 0)));
+    show("refMessage", "Referral reward is paid after your friend joins and verifies the channel.");
+  } catch (error) {
+    show("refMessage", error.message);
+  }
+}
 
-  $("bonusButton").addEventListener("click", () => {
-    $("bonusStatus").textContent =
-      "Daily bonus API is not connected yet.";
-  });
+$("copyReferral").addEventListener("click", async () => {
+  const link = $("referralLink").value;
+  if (!link) return show("refMessage", "Referral link is unavailable.");
+  try {
+    await navigator.clipboard.writeText(link);
+    show("refMessage", "Referral link copied!");
+  } catch {
+    $("referralLink").select();
+    show("refMessage", "Please copy the selected link.");
+  }
+});
 
-  $("withdrawButton").addEventListener("click", () => {
-    $("walletStatus").textContent =
-      "Withdrawal API is not connected yet.";
-  });
+async function loadWallet() {
+  if (!connected) return;
+  try {
+    const data = await api("/api/wallet");
+    setBalance(data.balance);
 
-  connectAccount();
-  setupReferral();
+    $("transactionHistory").innerHTML = data.transactions?.length
+      ? data.transactions.map(item => `
+        <div class="history-item">
+          <div class="row"><strong>${escapeHtml(item.type)}</strong>
+          <strong>${Number(item.amount).toFixed(4)} 🥥</strong></div>
+          <p class="muted">${escapeHtml(item.description || "")}</p>
+          <p class="muted">${new Date(item.created_at).toLocaleString()}</p>
+        </div>`).join("")
+      : '<p class="empty">No transactions yet.</p>';
+
+    $("withdrawHistory").innerHTML = data.withdrawals?.length
+      ? data.withdrawals.map(item => `
+        <div class="history-item">
+          <div class="row"><strong>#${item.id}</strong>
+          <strong>${Number(item.amount).toFixed(4)} 🥥</strong></div>
+          <p class="muted">Status: ${escapeHtml(item.status)}</p>
+          <p class="muted">${escapeHtml(item.wallet_address)}</p>
+          <p class="muted">${new Date(item.created_at).toLocaleString()}</p>
+        </div>`).join("")
+      : '<p class="empty">No withdrawal history yet.</p>';
+  } catch (error) {
+    show("withdrawMessage", error.message);
+  }
+}
+
+$("withdrawButton").addEventListener("click", async () => {
+  const amount = $("withdrawAmount").value;
+  const walletAddress = $("walletAddress").value.trim();
+
+  if (!amount || !walletAddress) {
+    return show("withdrawMessage", "Enter withdrawal amount and BEP20 address.");
+  }
+
+  $("withdrawButton").disabled = true;
+  try {
+    const data = await api("/api/withdrawals", {
+      method: "POST",
+      body: JSON.stringify({ amount, walletAddress })
+    });
+    show("withdrawMessage", data.message || "Withdrawal request submitted.");
+    $("withdrawAmount").value = "";
+    await loadWallet();
+  } catch (error) {
+    show("withdrawMessage", error.message);
+  } finally {
+    $("withdrawButton").disabled = !connected || !channelJoined;
+  }
+});
+
+connectAccount();
 </script>
-
 </body>
 </html>
