@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17251b" />
+  <title>CocoX Mining</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #101b14;
+      color: #fff4dc;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: auto;
+      padding: 24px 18px;
+      background: #17251b;
+    }
+
+    header {
+      text-align: center;
+      padding: 22px 0;
+    }
+
+    .logo {
+      font-size: 54px;
+    }
+
+    h1 {
+      margin: 8px 0;
+      color: #a8d878;
+    }
+
+    .subtitle {
+      color: #c7c9b5;
+      font-size: 14px;
+    }
+
+    .balance-card {
+      margin-top: 20px;
+      padding: 28px 20px;
+      text-align: center;
+      background: #263b2b;
+      border: 1px solid #54734a;
+      border-radius: 20px;
+    }
+
+    .balance-label {
+      color: #c7d8b6;
+      font-size: 14px;
+    }
+
+    .balance {
+      margin: 12px 0;
+      font-size: 38px;
+      font-weight: bold;
+      color: #b9e887;
+    }
+
+    .usd {
+      color: #e8d6ae;
+    }
+
+    .section-title {
+      margin: 28px 0 14px;
+      font-size: 18px;
+      color: #b9e887;
+    }
+
+    .info-card {
+      padding: 18px;
+      background: #203326;
+      border-radius: 14px;
+      line-height: 1.7;
+      color: #e8e2cf;
+    }
+
+    .status {
+      color: #f0ce83;
+      font-size: 13px;
+    }
+
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .nav button {
+      padding: 12px 4px;
+      border: 1px solid #54734a;
+      border-radius: 12px;
+      background: #263b2b;
+      color: #fff4dc;
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #8e9b88;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo">🌴🥥</div>
+      <h1>CocoX Mining</h1>
+      <div class="subtitle">Grow your Coconut rewards</div>
+    </header>
+
+    <section class="balance-card">
+      <div class="balance-label">Your Coconut Balance</div>
+      <div class="balance">0 🥥</div>
+      <div class="usd">Estimated value: $0.00</div>
+    </section>
+
+    <h2 class="section-title">Mining Status</h2>
+    <section class="info-card">
+      <div>⛏️ Automatic Mining</div>
+      <div>50 Coconut / 24 Hours</div>
+      <p class="status">Connecting to your account...</p>
+    </section>
+
+    <h2 class="section-title">Your Account</h2>
+    <section class="info-card">
+      <div>👤 Telegram User</div>
+      <div>🆔 Telegram ID: Loading...</div>
+      <div>💰 Conversion: 500 Coconut = $1</div>
+    </section>
+
+    <nav class="nav">
+      <button type="button">⛏️ Mine</button>
+      <button type="button">🎁 Bonus</button>
+      <button type="button">👥 Refer</button>
+      <button type="button">💳 Wallet</button>
+    </nav>
+
+    <footer>
+      CocoX Mining · Powered by Coconut Energy 🌴
+    </footer>
+  </main>
+</body>
+</html>
