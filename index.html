@@ -1,157 +1,525 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#17251b" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101b14">
   <title>CocoX Mining</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
       background: #101b14;
       color: #fff4dc;
       font-family: Arial, sans-serif;
     }
 
     .app {
-      width: 100%;
       max-width: 480px;
       min-height: 100vh;
       margin: auto;
-      padding: 24px 18px;
+      padding: 18px;
+      padding-bottom: 95px;
       background: #17251b;
     }
 
     header {
-      text-align: center;
-      padding: 22px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0 22px;
     }
 
     .logo {
-      font-size: 54px;
+      font-size: 38px;
     }
 
     h1 {
-      margin: 8px 0;
-      color: #a8d878;
+      color: #b9e887;
+      font-size: 22px;
     }
 
     .subtitle {
-      color: #c7c9b5;
-      font-size: 14px;
+      color: #aebba6;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .profile {
+      margin-left: auto;
+      text-align: right;
+      font-size: 12px;
+      color: #c7d8b6;
+      overflow-wrap: anywhere;
     }
 
     .balance-card {
-      margin-top: 20px;
-      padding: 28px 20px;
+      padding: 25px 18px;
       text-align: center;
-      background: #263b2b;
+      background: linear-gradient(135deg,#304a32,#203326);
       border: 1px solid #54734a;
       border-radius: 20px;
     }
 
     .balance-label {
-      color: #c7d8b6;
+      color: #d4e5c6;
       font-size: 14px;
     }
 
     .balance {
-      margin: 12px 0;
+      margin: 15px 0;
+      color: #b9e887;
       font-size: 38px;
       font-weight: bold;
-      color: #b9e887;
+      overflow-wrap: anywhere;
     }
 
     .usd {
       color: #e8d6ae;
+      font-size: 14px;
     }
 
-    .section-title {
-      margin: 28px 0 14px;
-      font-size: 18px;
-      color: #b9e887;
-    }
-
-    .info-card {
-      padding: 18px;
-      background: #203326;
-      border-radius: 14px;
-      line-height: 1.7;
-      color: #e8e2cf;
-    }
-
-    .status {
-      color: #f0ce83;
-      font-size: 13px;
-    }
-
-    .nav {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+    .section {
       margin-top: 24px;
     }
 
-    .nav button {
-      padding: 12px 4px;
-      border: 1px solid #54734a;
-      border-radius: 12px;
-      background: #263b2b;
+    .section h2 {
+      margin-bottom: 12px;
+      color: #b9e887;
+      font-size: 18px;
+    }
+
+    .card {
+      padding: 17px;
+      margin-bottom: 12px;
+      background: #203326;
+      border: 1px solid #344b37;
+      border-radius: 15px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 9px 0;
+      font-size: 14px;
+    }
+
+    .muted {
+      color: #b5c0ad;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .progress {
+      width: 100%;
+      height: 9px;
+      margin: 15px 0;
+      overflow: hidden;
+      background: #101b14;
+      border-radius: 20px;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #a8d878;
+      border-radius: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 11px;
+      background: #a8d878;
+      color: #17251b;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .secondary {
+      background: #354c37;
       color: #fff4dc;
+      border: 1px solid #54734a;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      width: 100%;
+      max-width: 480px;
+      padding: 10px 5px;
+      background: #101b14;
+      border-top: 1px solid #344b37;
+      z-index: 10;
+    }
+
+    .nav button {
+      margin: 0;
+      padding: 10px 2px;
+      background: transparent;
+      color: #bdc9b5;
+      font-size: 11px;
+      border-radius: 8px;
+    }
+
+    .nav button.active {
+      background: #263b2b;
+      color: #b9e887;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: 1px solid #54734a;
+      border-radius: 10px;
+      background: #101b14;
+      color: white;
+      outline: none;
+    }
+
+    .status {
+      margin-top: 12px;
+      color: #f0ce83;
       font-size: 12px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .task {
+      margin-bottom: 12px;
     }
 
     footer {
-      margin-top: 30px;
+      padding: 25px 0 5px;
       text-align: center;
-      color: #8e9b88;
-      font-size: 12px;
+      color: #82917c;
+      font-size: 11px;
     }
   </style>
 </head>
+
 <body>
-  <main class="app">
-    <header>
-      <div class="logo">🌴🥥</div>
+<main class="app">
+
+  <header>
+    <div class="logo">🌴🥥</div>
+    <div>
       <h1>CocoX Mining</h1>
       <div class="subtitle">Grow your Coconut rewards</div>
-    </header>
+    </div>
+    <div class="profile" id="username">Loading...</div>
+  </header>
 
-    <section class="balance-card">
-      <div class="balance-label">Your Coconut Balance</div>
-      <div class="balance">0 🥥</div>
-      <div class="usd">Estimated value: $0.00</div>
-    </section>
+  <!-- DASHBOARD -->
+  <section class="page active" id="dashboard">
 
-    <h2 class="section-title">Mining Status</h2>
-    <section class="info-card">
-      <div>⛏️ Automatic Mining</div>
-      <div>50 Coconut / 24 Hours</div>
-      <p class="status">Connecting to your account...</p>
-    </section>
+    <div class="balance-card">
+      <div class="balance-label">YOUR COCONUT BALANCE</div>
+      <div class="balance" id="balance">0 🥥</div>
+      <div class="usd" id="usd">$0.00 USD</div>
+    </div>
 
-    <h2 class="section-title">Your Account</h2>
-    <section class="info-card">
-      <div>👤 Telegram User</div>
-      <div>🆔 Telegram ID: Loading...</div>
-      <div>💰 Conversion: 500 Coconut = $1</div>
-    </section>
+    <div class="section">
+      <h2>⛏️ Mining Status</h2>
+      <div class="card">
+        <div class="row">
+          <span>Daily Mining</span>
+          <strong>50 🥥 / 24h</strong>
+        </div>
+        <div class="row">
+          <span>Mining Progress</span>
+          <strong id="miningProgress">0%</strong>
+        </div>
+        <div class="progress">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="muted" id="miningStatus">
+          Connect your Telegram account to continue.
+        </p>
+      </div>
+    </div>
 
-    <nav class="nav">
-      <button type="button">⛏️ Mine</button>
-      <button type="button">🎁 Bonus</button>
-      <button type="button">👥 Refer</button>
-      <button type="button">💳 Wallet</button>
-    </nav>
+    <div class="section">
+      <h2>👤 Account Information</h2>
+      <div class="card">
+        <div class="row">
+          <span>Name</span>
+          <strong id="fullName">Loading...</strong>
+        </div>
+        <div class="row">
+          <span>Telegram ID</span>
+          <strong id="telegramId">Loading...</strong>
+        </div>
+        <div class="row">
+          <span>Conversion</span>
+          <strong>500 🥥 = $1</strong>
+        </div>
+        <div class="status" id="connectionStatus">
+          Connecting...
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-      CocoX Mining · Powered by Coconut Energy 🌴
-    </footer>
-  </main>
+  <!-- MINING -->
+  <section class="page" id="mine">
+    <div class="section">
+      <h2>⛏️ Coconut Mining</h2>
+      <div class="card">
+        <div style="font-size:45px;text-align:center">🌴🥥</div>
+        <h2 style="text-align:center;margin-top:12px">50 Coconut / Day</h2>
+        <p class="muted" style="text-align:center">
+          Earn Coconut rewards over 24 hours.
+        </p>
+        <div class="status" id="mineStatus">
+          Mining information will appear here.
+        </div>
+        <button id="claimButton" disabled>
+          Claim Mining Rewards
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BONUS -->
+  <section class="page" id="bonus">
+    <div class="section">
+      <h2>🎁 Daily Bonus</h2>
+      <div class="card">
+        <div style="font-size:45px;text-align:center">🎁</div>
+        <h2 style="text-align:center">10 Coconut</h2>
+        <p class="muted" style="text-align:center">
+          Daily bonus reward.
+        </p>
+        <button id="bonusButton" disabled>
+          Claim Daily Bonus
+        </button>
+        <p class="status" id="bonusStatus">
+          Daily bonus service is not connected yet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section class="page" id="refer">
+    <div class="section">
+      <h2>👥 Referral Program</h2>
+      <div class="card">
+        <h2 style="text-align:center">100 🥥</h2>
+        <p class="muted" style="text-align:center">
+          Invite friends and earn 100 Coconut for each eligible referral.
+        </p>
+        <input id="referralLink" readonly
+          placeholder="Your referral link will appear here">
+        <button class="secondary" id="copyReferral">
+          Copy Referral Link
+        </button>
+        <p class="status" id="referralStatus">
+          Referral service is not connected yet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WALLET -->
+  <section class="page" id="wallet">
+    <div class="section">
+      <h2>💳 Wallet & Withdrawal</h2>
+      <div class="card">
+        <p class="muted">
+          Minimum withdrawal: 500 Coconut<br>
+          Network: BNB Smart Chain (BEP20)
+        </p>
+        <input id="walletAddress"
+          placeholder="Enter your BEP20 wallet address">
+        <input id="withdrawAmount"
+          type="number" min="500"
+          placeholder="Enter Coconut amount">
+        <button id="withdrawButton" disabled>
+          Request Withdrawal
+        </button>
+        <p class="status" id="walletStatus">
+          Withdrawal service is not connected yet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    CocoX Mining · Powered by Coconut Energy 🌴
+  </footer>
+
+</main>
+
+<nav class="nav">
+  <button class="active" data-page="dashboard">🏠<br>Home</button>
+  <button data-page="mine">⛏️<br>Mine</button>
+  <button data-page="bonus">🎁<br>Bonus</button>
+  <button data-page="refer">👥<br>Refer</button>
+  <button data-page="wallet">💳<br>Wallet</button>
+</nav>
+
+<script>
+  const tg = window.Telegram?.WebApp;
+
+  if (tg) {
+    tg.ready();
+    tg.expand();
+  }
+
+  const $ = id => document.getElementById(id);
+
+  // Navigation
+  document.querySelectorAll(".nav button").forEach(button => {
+    button.addEventListener("click", () => {
+      document.querySelectorAll(".nav button").forEach(item => {
+        item.classList.remove("active");
+      });
+
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      $(button.dataset.page).classList.add("active");
+    });
+  });
+
+  // Telegram user information
+  async function connectAccount() {
+    if (!tg || !tg.initData) {
+      $("connectionStatus").textContent =
+        "Open this app through Telegram to connect your account.";
+
+      $("username").textContent = "Guest";
+      $("claimButton").disabled = true;
+      $("bonusButton").disabled = true;
+      $("withdrawButton").disabled = true;
+      return;
+    }
+
+    const user = tg.initDataUnsafe?.user;
+
+    if (user) {
+      $("username").textContent =
+        user.username ? "@" + user.username : user.first_name;
+
+      $("fullName").textContent =
+        [user.first_name, user.last_name].filter(Boolean).join(" ");
+
+      $("telegramId").textContent = user.id;
+    }
+
+    try {
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Telegram-Init-Data": tg.initData
+        },
+        body: JSON.stringify({})
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Account connection failed");
+      }
+
+      $("balance").textContent =
+        Number(data.user.balance).toFixed(2) + " 🥥";
+
+      $("usd").textContent =
+        "$" + (Number(data.user.balance) / 500).toFixed(2) + " USD";
+
+      $("connectionStatus").textContent =
+        "Telegram account connected successfully.";
+
+    } catch (error) {
+      $("connectionStatus").textContent =
+        "Account connection failed: " + error.message;
+    }
+  }
+
+  // Referral link preview
+  function setupReferral() {
+    const user = tg?.initDataUnsafe?.user;
+
+    if (user?.id) {
+      $("referralLink").value =
+        "https://t.me/CocoXMiningBot?start=ref_" + user.id;
+    }
+  }
+
+  $("copyReferral").addEventListener("click", async () => {
+    const link = $("referralLink").value;
+
+    if (!link) {
+      $("referralStatus").textContent = "Referral link is unavailable.";
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(link);
+      $("referralStatus").textContent = "Referral link copied!";
+    } catch {
+      $("referralLink").select();
+      $("referralStatus").textContent =
+        "Select and copy your referral link.";
+    }
+  });
+
+  // These features require secure server APIs.
+  $("claimButton").addEventListener("click", () => {
+    $("mineStatus").textContent =
+      "Mining claim API is not connected yet.";
+  });
+
+  $("bonusButton").addEventListener("click", () => {
+    $("bonusStatus").textContent =
+      "Daily bonus API is not connected yet.";
+  });
+
+  $("withdrawButton").addEventListener("click", () => {
+    $("walletStatus").textContent =
+      "Withdrawal API is not connected yet.";
+  });
+
+  connectAccount();
+  setupReferral();
+</script>
+
 </body>
 </html>
