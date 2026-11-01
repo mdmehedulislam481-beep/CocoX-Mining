@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vercel dev"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
   "dependencies": {
     "express": "^5.1.0",
     "pg": "^8.13.1"
   },
-  "devDependencies": {
-    "vercel": "^39.2.2"
+  "engines": {
+    "node": "20.x"
   }
 }
